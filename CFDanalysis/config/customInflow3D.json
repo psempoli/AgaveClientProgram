@@ -1,10 +1,10 @@
 {
-    "displayName":"3D Building - Custom Turbulent Inflow",
+    "displayName":"3D Building - Custom Turbulent Inflow - Under Construction",
     "internalName":"customInflow",
     "description":"This model computes \nthe air flow around a building\n using an uploaded 3D geometry,\nusing customized inflows",
     "icon":"upload3D.png",
     "debugOnly":true,
-    "disable":true,
+    "disable":false,
     "list_order":3,
     "parent":"upload3D.json",
     "stages":[
@@ -52,7 +52,7 @@
                     "internalName":"inflow",
                     "vars":[
                         {
-                            "displayName":"Mean Inflow Velocity",
+                            "displayName":"Mean Velocity Reference Value",
                             "internalName":"velocity",
                             "type":"std",
                             "default":"1",
@@ -61,13 +61,75 @@
                             "sign":"+"
                         },
                         {
-                            "displayName":"Select Landscape Type",
+                            "displayName":"Inflow Distibution",
+                            "internalName":"inflowDist",
+                            "type":"choose",
+                            "default":"uniform",
+                            "options":{
+                                "uniform":"Uniform Inflow",
+                                "exponential":"Exponential Inflow Profile"
+                            }
+                        },
+                        {
+                            "displayName":"Inflow Type",
                             "internalName":"inflowChoose",
                             "type":"choose",
-                            "default":"TODO",
+                            "default":"digitalFilter",
                             "options":{
-                                "Actual OF option text":"Human Text"
-                            }
+                                "digitalFilter":"Digital Filter",
+                                "syntheticEddy":"Synthetic Eddy"
+                            },
+                            "showCondition":"$inflowDist!uniform"
+                        },
+                        {
+                            "displayName":"Eddy Density",
+                            "internalName":"eddyDensity",
+                            "type":"std",
+                            "default":"0.1",
+                            "precision":"2",
+                            "sign":"+",
+                            "showCondition":"$inflowChoose=syntheticEddy"
+                        },
+                        {
+                            "displayName":"Inflow Shape",
+                            "internalName":"eddyDensity",
+                            "type":"choose",
+                            "default":"gaussian",
+                            "options":{
+                                "tent":"Tent",
+                                "step":"Step",
+                                "gaussian":"Gaussian"
+                            },
+                            "showCondition":"$inflowChoose=syntheticEddy"
+                        },
+                        {
+                            "displayName":"Digital Filter Shape",
+                            "internalName":"filterShape",
+                            "type":"choose",
+                            "default":"gaussian",
+                            "options":{
+                                "exponential":"Exponential",
+                                "gaussian":"Gaussian"
+                            },
+                            "showCondition":"$inflowChoose=digitalFilter"
+                        },
+                        {
+                            "displayName":"Grid Factor",
+                            "internalName":"gridFactor",
+                            "type":"std",
+                            "default":"1",
+                            "precision":"0",
+                            "sign":"+",
+                            "showCondition":"$inflowChoose=digitalFilter"
+                        },
+                        {
+                            "displayName":"Filter Factor",
+                            "internalName":"filterFactor",
+                            "type":"std",
+                            "default":"8",
+                            "precision":"0",
+                            "sign":"+",
+                            "showCondition":"$inflowChoose=digitalFilter"
                         }
                     ]
                 },

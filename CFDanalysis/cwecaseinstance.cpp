@@ -334,7 +334,7 @@ bool CWEcaseInstance::downloadCase(QString destLocalFile)
     if (myType == nullptr) return false;
     if (cwe_globals::get_file_handle()->operationIsPending()) return false;
 
-    if (!cwe_globals::isValidLocalFolder(destLocalFile))
+    if (!cwe_globals::isExtantLocalFolder(destLocalFile))
     {
         cwe_globals::displayPopup("Please select a valid local folder for download", "I/O Error");
         return false;
